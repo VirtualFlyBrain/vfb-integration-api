@@ -1,0 +1,5 @@
+PREFIX : <http://www.test.com/ns/test3#>
+
+CONSTRUCT { ?x ?p ?y . }
+
+WHERE {?x ?p ?y .}
