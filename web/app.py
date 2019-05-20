@@ -11,20 +11,12 @@ api = Api(app)
 
 class TripleStore():
     endpoint = os.environ['SPARQLENDPOINT']
+
     def query(self,q):
-        query=self.endpoint+q
-        print(query)
-        r = requests.get(query)
+        r = requests.get(self.endpoint+q)
         return r.text
 
-        # https://stackoverflow.com/a/800201
-
-    def get_immediate_subdirectories(self, a_dir):
-        return [name for name in os.listdir(a_dir)
-                if os.path.isdir(os.path.join(a_dir, name))]
-
     def query_and_merge(self, q, dir):
-        print(q)
         sparql_files = [x for x in os.listdir(os.path.join(app.root_path, 'sparql', dir)) if x.endswith('.sparql')]
         g = rdflib.Graph()
         for sparql_f in sparql_files:
