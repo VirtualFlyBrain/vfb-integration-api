@@ -27,7 +27,8 @@ class TripleStore():
                     try:
                         g.parse(data=self.query(query_encoded))
                     except:
-                        print("VFB REST call failed: "+query_encoded)
+                        print("VFB REST call failed: "+self.endpoint)
+                        print("Query: "+query_encoded)
 
         return g.serialize(format='xml')
 
