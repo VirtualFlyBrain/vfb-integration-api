@@ -1,4 +1,4 @@
-PREFIX : <http://www.test.com/ns/test2#>
+PREFIX : <http://www.test.com/ns/test3#>
 
 CONSTRUCT { ?x ?p ?y . }
 

@@ -13,7 +13,9 @@ class TripleStore():
     endpoint = os.environ['SPARQLENDPOINT']
 
     def query(self,q):
-        r = requests.get(self.endpoint+q)
+        query=self.endpoint+q
+        print(query)
+        r = requests.get(query)
         return r.text
 
     def query_and_merge(self, q, dir):
@@ -25,10 +27,15 @@ class TripleStore():
                 if len(contents):
                     query_encoded = urllib.quote(str(contents))
                     try:
-                        g.parse(data=self.query(query_encoded))
-                    except:
-                        print("VFB REST call failed: "+self.endpoint)
-                        print("Query: "+query_encoded)
+                        result = self.query(query_encoded)
+                        try:
+                            g.parse(data=result, format="ttl" )
+                        except Exception as e:
+                            print("Parsing failed.")
+                            print(e)
+                    except Exception as e:
+                        print("VFB REST call failed: "+self.endpoint+query_encoded)
+                        print(e)
 
         return g.serialize(format='xml')
 
@@ -43,8 +50,13 @@ class OwleryInput(Resource):
     def get(self):
         return Response(ts.query_and_merge("q", "owlery"), mimetype='text/xml')
 
+class TestInput(Resource):
+    def get(self):
+        return Response(ts.query_and_merge("q", "test"), mimetype='text/xml')
+
 api.add_resource(OwleryInput, '/owlery')
 api.add_resource(ProdInput, '/prod')
+api.add_resource(TestInput, '/test')
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
