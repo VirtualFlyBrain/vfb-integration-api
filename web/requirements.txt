@@ -1,4 +1,4 @@
 flask==0.12.2
 flask_restful==0.3.6
 rdflib==4.2.2
-requests==2.21.0
+requests==2.32.0
